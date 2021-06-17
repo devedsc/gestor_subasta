@@ -1,0 +1,87 @@
+
+
+*{margin: 0; padding: 0;}
+
+
+body{
+   
+    background: url("./img/background-2672565_1920.jpg") no-repeat center center fixed;
+    background-size: cover;
+    -moz-background-size: cover;
+  
+}
+
+.header {
+  
+}
+
+
+
+.boton{
+    margin: 10px;
+}
+
+.container{
+   
+    padding: 20px;
+    margin: 20px;
+   
+   
+}
+
+.cuadrar{
+    margin: 10px;
+    padding: 10px;
+}
+
+
+
+h1{
+  
+    color: white;
+    text-align: center;
+}
+
+h2{
+    
+    text-align: center;
+    color: white
+}
+
+.line {
+    background-color: rgba(72, 131, 209, 0.836);
+    color:white;
+    text-align: right;
+    padding-right: 20px;
+}
+
+
+.footer{
+
+    height:300px;
+    background-color: Black;
+    color: white;
+    text-align: center;
+
+
+}
+
+.footer p {
+    padding-top:100px;
+}
+
+
+
+
+.tableVistaPrevia{
+    margin-top:50px;
+}
+
+
+.tableFixHead          { overflow: auto; height: 600px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }

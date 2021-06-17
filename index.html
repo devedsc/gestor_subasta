@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="contenido" class="line"></div>
+    <div class="header"><h1>Gestor de Subastas Online</h1></div>
+    <div class="cuadrar">
+      
+      
+      <div class="row">
+        <div class=".col-12 col-md-6">
+          <form id="formDatos">
+            <div class="container">
+              <h2>Datos iniciales</h2>
+              <div class="formField">
+                <label for="input_Url"></label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Url Remate:</span>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input_Url"
+                    placeholder="pagina de remate (opcional)"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <div class="formField">
+                <label for="input_capital"></label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Monto a Invertir:</span>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="input_capital"
+                    placeholder="monto total"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <div class="formField">
+                <label for="input_iva"></label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">IVA:</span>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="input_iva"
+                    placeholder="valor"
+                    autocomplete="off"
+                    value="19"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="formField">
+                <label for="input_imartillo"></label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Impuesto al martillo:</span>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="input_imartillo"
+                    placeholder="ingrese valor"
+                    autocomplete="off"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      <div class=".col-12 col-md-6">
+   
+
+        
+      </div>
+      </div>
+
+      <div class="row">
+        <div class=".col-12 col-md-6">
+          
+
+          <form id="form_registro_subasta">
+            <div class="container">
+              <h2>Producto Adjudicado</h2>
+              <div class="formField">
+                <label for="input_product"></label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Producto</span>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input_product"
+                    placeholder="ingrese nombre de producto"
+                    autocomplete="off"
+                  />
+                  
+                </div>
+              </div>
+
+
+
+            
+            <div class="formField">
+              <label for="input_value"></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="input_value"
+                  placeholder="ingresa monto"
+                  autocomplete="off"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="formField text-center m-3">
+              <button id="btn-guardar" class="btn btn-success">Agregar a listado</button>
+            </div>
+          </form>
+          
+       
+
+          <table class="table table-dark tableVistaPrevia" border="1">
+            <thead>
+              <tr>
+                <th width="200px">Variation</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Producto:</td>
+                <td id="output_product"></td>
+              </tr>
+              <tr>
+                <td>Valor:</td>
+                <td id="output_valor"></td>
+              </tr>
+              <tr>
+                <td>iva:</td>
+                <td id="output_iva"></td>
+              </tr>
+              <tr>
+                <td>Imp. al Martillo:</td>
+                <td id="output_imartillo"></td>
+              </tr>
+              <tr>
+                <td>Total:</td>
+                <td id="output_total"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+
+        <div class=".col-12 col-md-6">
+          <div class="container">
+          <h2>Lista de Adjudicado</h2>
+          <div class="tableFixHead">
+            <table class="table table-dark tableFixHead" id="transactionTable">
+              <tr>
+                <th>Producto</th>
+                <th>Monto</th>
+                <th>iva</th>
+                <th>Imp. martillo</th>
+                <th>Total</th>
+              </tr>
+            </table>
+          </div>
+          <div class="text-center m-3">
+          <button id="exportExcel" class="btn btn-warning">Descargar listado .xls</button>
+        </div>
+        </div>
+      </div>
+      </div>
+     
+    </div>
+    
+   
+    <div class="footer">
+      <p id="registro">
+        Contactanos al numero +56 9 5656 54563 <br>
+        Correo electronico: Dev@subastas.cl <br>
+        Direccion: San Antonio 911 depto 901, Santiago de Chile <br>
+
+        
+      </p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/index.js" type="module"></script>
+    <script src="/helpers.js" nomodule></script>
+  </body>
+</html>
