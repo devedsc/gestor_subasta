@@ -16,10 +16,17 @@
    const setIMartillo = document.querySelector("#output_imartillo")
    const setTotal = document.querySelector("#output_total")
 
+
+
+   const formDatos = document.getElementById("formDatos");
    const form = document.getElementById("form_registro_subasta");
-   const input_value = document.getElementById("input_value");
-   const input_product = document.getElementById("input_product");
+
    const export_excel = document.getElementById("exportExcel");
+   
+
+   let total =0;
+
+ 
 
 
 
@@ -29,30 +36,61 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   datosEconomicos();
-  
+ 
+  document.getElementById("section2").style.display = "none";
 });
 
+
+//Click  exportar excel
    export_excel.addEventListener("click", () =>{
      
     exportTableToExcel("transactionTable","reporte");
    })
 
 
+   formDatos.addEventListener("submit", (e)=> {
+    e.preventDefault();
+ 
+    
+    if(!isNaN(getCapital.value) && !isNaN(getIMartillo.value) && !isNaN(getIva.value)){
+      document.getElementById("section2").style.display = "block";
+      document.getElementById("section1").style.display = "none";
+      resumenDataForm();
+    }else{
+      alert("los datos ingresados no son validos");
+      getCapital.value = "";
+      getIMartillo.value = "";
+      getIva.value = "";
+    }
+   
+
+   })
    
    form.addEventListener("submit", function(event){
     event.preventDefault();
-     CargarTabla(setProduct.textContent, setValor.textContent, setIva.textContent, setIMartillo.textContent, setTotal.textContent);
+
+    total+= CargarVistaPrevia();
+    CargarTabla(setProduct.textContent, setValor.textContent, setIva.textContent, setIMartillo.textContent, setTotal.textContent);
+    resumenDataForm(total);
+    Limpiar();
+    
+ 
+ 
+
 
    })
 
 
 
   input_product.addEventListener("keyup", () => {
-    CargarVistaPrevia();
+   CargarVistaPrevia();
+   
+   
  });
    
   input_value.addEventListener("keyup", () => {
-   CargarVistaPrevia();
+    CargarVistaPrevia();
+    
 });
 
 
@@ -93,11 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const CargarVistaPrevia = () => {
 
+  let  totalAcumulado = 0;
   setProduct.textContent = getProduct.value;
     setValor.textContent = formatNumber.new(getValue.value, "$");
     setIva.textContent = formatNumber.new(Math.round(getValue.value * ((getIva.value)/100)),"$");
     setIMartillo.textContent = formatNumber.new(Math.round(getValue.value * ((getIMartillo.value)/100)),"$");
     setTotal.textContent = formatNumber.new(parseInt(getValue.value) + parseInt(getValue.value * ((getIMartillo.value)/100)) + parseInt(getValue.value * ((getIva.value)/100)),"$");
+    totalAcumulado = parseInt(getValue.value) + parseInt(getValue.value * ((getIMartillo.value)/100)) + parseInt(getValue.value * ((getIva.value)/100));
+    return totalAcumulado;
 
 }
 
@@ -110,7 +151,7 @@ const CargarVistaPrevia = () => {
 
 
 
-     let transactionFormData = new FormData(form);
+     
      let transactionTableRef = document.getElementById("transactionTable");
      let newTransactionRowRef = transactionTableRef.insertRow(1);
      let newCellProductRef = newTransactionRowRef.insertCell(0);
@@ -124,31 +165,12 @@ const CargarVistaPrevia = () => {
      let newCellTotalRef = newTransactionRowRef.insertCell(4);
     
      newCellTotalRef.textContent = total;
+     return total;
 
   }
 
 
-  var formatNumber = {
-    separador: ".", // separador para los miles
-    sepDecimal: ',', // separador para los decimales
-    formatear:function (num){
-    num +='';
-    var splitStr = num.split('.');
-    var splitLeft = splitStr[0];
-    var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
-    var regx = /(\d+)(\d{3})/;
-    while (regx.test(splitLeft)) {
-    splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
-    }
-    return this.simbol + splitLeft +splitRight;
-    },
-    new:function(num, simbol){
-    this.simbol = simbol ||'';
-    return this.formatear(num);
-    }
-   }
-
-   //DESCARGAR EN FORMATO EXCEL 
+//DESCARGAR EN FORMATO EXCEL 
 
    function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -180,3 +202,52 @@ const CargarVistaPrevia = () => {
         downloadLink.click();
     }
 }
+
+//LIMPIAR VISTA PREVIA
+
+const Limpiar = () =>
+
+{
+  getProduct.value = null;
+  getValue.value = null;
+  setProduct.textContent = "";
+  setValor.textContent = "";
+  setIva.textContent = "";
+  setIMartillo.textContent = "";
+  setTotal.textContent = "";
+  
+}
+
+
+
+//RESUMEN DE VALORES INGRESADOS EN FORM DATOS
+
+const resumenDataForm = (valorProducto = 0)=> {
+  const resumen = document.getElementById("Data-form");
+  const valorActual = getCapital.value - valorProducto;
+  resumen.innerHTML = `  <p class="resumen">Capital:${formatNumber.new(valorActual,"$")} | Iva:${getIva.value}% | IMartillo:${getIMartillo.value}% <br>
+  <a href="./index.html">volver</a></p>
+`
+}
+
+  //OBJ FORMAT NUMBER
+
+  var formatNumber = {
+    separador: ".", // separador para los miles
+    sepDecimal: ',', // separador para los decimales
+    formatear:function (num){
+    num +='';
+    var splitStr = num.split('.');
+    var splitLeft = splitStr[0];
+    var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+    var regx = /(\d+)(\d{3})/;
+    while (regx.test(splitLeft)) {
+    splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+    }
+    return this.simbol + splitLeft +splitRight;
+    },
+    new:function(num, simbol){
+    this.simbol = simbol ||'';
+    return this.formatear(num);
+    }
+   }
